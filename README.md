@@ -1,6 +1,13 @@
 # Vault — Distributed Object Storage System
 
+[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run/?git_repo=https://github.com/karansingh333/promptthon)
+
 A minimal, single-machine distributed object storage system with SHA-256 integrity verification, automatic failover, self-healing replication, and a real-time web dashboard built with Python and FastAPI.
+
+## One-Click Deploy to Google Cloud Run
+
+Click the button above or open:
+👉 **[https://deploy.cloud.run/?git_repo=https://github.com/karansingh333/promptthon](https://deploy.cloud.run/?git_repo=https://github.com/karansingh333/promptthon)**
 
 ## Architecture
 
@@ -15,9 +22,9 @@ A minimal, single-machine distributed object storage system with SHA-256 integri
   - `GET /download/{filename}`: Iterates through replica nodes and serves the first HTTP 200 copy with a verified SHA-256 checksum, automatically failing over if a node is offline or returns corrupted bytes.
   - `POST /repair/{filename}`: Fetches a verified healthy replica and replicates it to any active node missing or holding a corrupted copy of the file.
   - `GET /status`: Queries every node's `/health` endpoint with a 1-second timeout and returns cluster health and replica metadata.
-  - `GET /`: Serves the real-time dark-mode web dashboard (`static/index.html`).
+  - `GET /`: Serves the real-time web dashboard (`static/index.html`).
 
-## Quick Start
+## Quick Start (Local)
 
 ```bash
 chmod +x run.sh

@@ -1,0 +1,9 @@
+{
+  "name": "vault-storage",
+  "description": "Vault — Distributed Object Storage System with SHA-256 Verification and Self-Healing",
+  "options": {
+    "allow-unauthenticated": true,
+    "memory": "512Mi",
+    "cpu": "1"
+  }
+}

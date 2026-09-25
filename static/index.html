@@ -3,27 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vault — Distributed Object Storage & Self-Healing Dashboard</title>
+  <title>SHIT IS HARD — Vault Distributed Storage</title>
   <style>
     :root {
-      --bg: #090d16;
-      --bg-accent: radial-gradient(circle at 15% 0%, rgba(59, 130, 246, 0.14), transparent 45%),
-                   radial-gradient(circle at 85% 10%, rgba(16, 185, 129, 0.10), transparent 40%);
-      --surface: #111827;
-      --surface-2: #182236;
-      --surface-hover: #1e293b;
-      --border: #26334d;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --accent: #3b82f6;
-      --accent-hover: #2563eb;
+      --bg: #060608;
+      --surface: #0d0d11;
+      --surface-hover: #14141a;
+      --border: #1f1f27;
+      --border-light: #2e2e3a;
+      --text: #f4f4f6;
+      --muted: #7d7d8a;
       --green: #10b981;
-      --green-bg: rgba(16, 185, 129, 0.14);
+      --green-bg: rgba(16, 185, 129, 0.12);
       --red: #ef4444;
-      --red-bg: rgba(239, 68, 68, 0.14);
+      --red-bg: rgba(239, 68, 68, 0.12);
       --amber: #f59e0b;
-      --amber-bg: rgba(245, 158, 11, 0.14);
-      --radius: 12px;
+      --amber-bg: rgba(245, 158, 11, 0.12);
+      --radius: 8px;
     }
 
     * {
@@ -34,458 +30,337 @@
 
     body {
       background-color: var(--bg);
-      background-image: var(--bg-accent);
-      background-attachment: fixed;
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
       line-height: 1.5;
-      padding: 1.75rem 1.25rem 3rem;
-      min-height: 100vh;
+      padding: 2.5rem 1.5rem 4rem;
+      -webkit-font-smoothing: antialiased;
     }
 
     .container {
-      max-width: 1180px;
+      max-width: 1020px;
       margin: 0 auto;
     }
 
-    /* Header */
+    /* Branded Minimalist Header */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-bottom: 1.75rem;
+      margin-bottom: 2.25rem;
       border-bottom: 1px solid var(--border);
-      padding-bottom: 1.25rem;
-      margin-bottom: 1.5rem;
       flex-wrap: wrap;
       gap: 1rem;
     }
 
-    .brand {
+    .logo-lockup {
       display: flex;
       align-items: center;
       gap: 0.9rem;
+      user-select: none;
     }
 
-    .brand-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 11px;
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      background: var(--text);
+      color: var(--bg);
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 1.25rem;
-      color: #fff;
+      font-weight: 900;
+      font-size: 0.95rem;
+      letter-spacing: -0.05em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      flex-shrink: 0;
     }
 
-    h1 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+    .logo-text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
     }
 
-    .subtitle {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .status-pill {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 0.45rem 0.85rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      color: var(--muted);
+    .logo-title {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: var(--text);
       display: flex;
       align-items: center;
       gap: 0.55rem;
     }
 
-    .pulse-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background-color: var(--green);
-      box-shadow: 0 0 10px var(--green);
+    .logo-tag {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border-light);
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
     }
 
-    /* Quick Start Guide Steps */
-    .guide-banner {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 0.85rem;
-      margin-bottom: 1.5rem;
+    .logo-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
 
-    .guide-step {
-      background: rgba(17, 24, 39, 0.75);
+    .status-pill {
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.9rem 1.05rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-
-    .step-num {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: rgba(59, 130, 246, 0.18);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      color: #60a5fa;
-      font-weight: 700;
-      font-size: 0.78rem;
+      background: var(--surface);
+      padding: 0.38rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       display: flex;
       align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 0.1rem;
+      gap: 0.5rem;
     }
 
-    .step-text strong {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--text);
-      margin-bottom: 0.15rem;
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--green);
     }
 
-    .step-text span {
-      font-size: 0.78rem;
-      color: var(--muted);
+    section {
+      margin-bottom: 2.25rem;
     }
 
-    /* KPI Metrics Bar */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .kpi-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.1rem 1.25rem;
+    .section-bar {
       display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
     }
 
-    .kpi-label {
-      font-size: 0.76rem;
+    .section-label {
+      font-size: 0.72rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
       color: var(--muted);
       font-weight: 600;
     }
 
-    .kpi-value {
-      font-size: 1.45rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .kpi-sub {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    section {
-      margin-bottom: 2rem;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.85rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .section-title {
-      font-size: 0.92rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text);
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .section-hint {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    /* Storage Node Cards */
+    /* Storage Nodes Grid */
     .nodes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+    }
+
+    @media (max-width: 720px) {
+      .nodes-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .node-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.2rem 1.3rem;
+      padding: 1rem 1.15rem;
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
-      transition: border-color 0.2s ease, transform 0.15s ease;
+      gap: 0.75rem;
+      transition: border-color 0.15s ease;
     }
 
-    .node-card.node-dead {
-      border-color: rgba(239, 68, 68, 0.45);
-      background: linear-gradient(180deg, rgba(239, 68, 68, 0.05), var(--surface));
+    .node-card:hover {
+      border-color: var(--border-light);
     }
 
-    .node-header {
+    .node-card.dead {
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .node-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .node-title-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .node-name {
-      font-weight: 700;
-      font-size: 1.02rem;
-    }
-
-    .node-path {
+    .node-id {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.76rem;
-      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 600;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      padding: 0.24rem 0.68rem;
-      border-radius: 9999px;
-      font-size: 0.74rem;
+      padding: 0.16rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.68rem;
       font-weight: 700;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
 
     .badge-online {
       background: var(--green-bg);
       color: var(--green);
-      border: 1px solid rgba(16, 185, 129, 0.4);
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
     .badge-dead {
       background: var(--red-bg);
       color: var(--red);
-      border: 1px solid rgba(239, 68, 68, 0.4);
+      border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
     .badge-warn {
       background: var(--amber-bg);
       color: var(--amber);
-      border: 1px solid rgba(245, 158, 11, 0.4);
+      border: 1px solid rgba(245, 158, 11, 0.3);
     }
 
-    .node-files-preview {
-      background: rgba(9, 13, 22, 0.55);
-      border: 1px solid rgba(38, 51, 77, 0.7);
-      border-radius: 8px;
-      padding: 0.6rem 0.75rem;
-      font-size: 0.78rem;
-      color: var(--muted);
-      min-height: 52px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 0.3rem;
-    }
-
-    .node-file-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-    }
-
-    .node-file-tag {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 0.12rem 0.45rem;
-      border-radius: 4px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.72rem;
-    }
-
-    .node-footer {
+    .node-bottom {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 0.4rem;
+      font-size: 0.76rem;
+      color: var(--muted);
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--border);
     }
 
-    /* Drag & Drop Upload Zone */
-    .upload-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 1rem;
-    }
-
-    @media (max-width: 780px) {
-      .upload-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .dropzone {
+    /* Minimalist Upload Bar */
+    .upload-bar {
       background: var(--surface);
-      border: 2px dashed #334669;
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.5rem;
+      padding: 0.85rem 1rem;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
+      justify-content: space-between;
       gap: 0.75rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      flex-wrap: wrap;
     }
 
-    .dropzone:hover, .dropzone.dragover {
-      border-color: var(--accent);
-      background: rgba(59, 130, 246, 0.06);
-    }
-
-    .dropzone-title {
-      font-weight: 600;
-      font-size: 0.98rem;
-    }
-
-    .dropzone-sub {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .upload-side-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.35rem;
+    .upload-form {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 0.9rem;
+      align-items: center;
+      gap: 0.65rem;
+      flex: 1;
+      min-width: 260px;
     }
 
     input[type="file"] {
-      display: none;
+      flex: 1;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.42rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+
+    input[type="file"]::file-selector-button {
+      background: var(--surface-hover);
+      color: var(--text);
+      border: 1px solid var(--border-light);
+      border-radius: 4px;
+      padding: 0.25rem 0.65rem;
+      margin-right: 0.65rem;
+      cursor: pointer;
+      font-size: 0.76rem;
+      font-weight: 500;
     }
 
     /* Buttons */
     .btn {
-      background: var(--accent);
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      padding: 0.58rem 1.05rem;
-      font-size: 0.84rem;
+      background: var(--text);
+      color: var(--bg);
+      border: 1px solid var(--text);
+      border-radius: 6px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: opacity 0.15s ease, background 0.15s ease;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
       white-space: nowrap;
     }
 
     .btn:hover {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
+      opacity: 0.88;
     }
 
     .btn:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
-      transform: none;
     }
 
-    .btn-sm {
-      padding: 0.35rem 0.7rem;
-      font-size: 0.76rem;
-      border-radius: 6px;
-    }
-
-    .btn-secondary {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
+    .btn-ghost {
+      background: transparent;
       color: var(--text);
+      border: 1px solid var(--border-light);
     }
 
-    .btn-secondary:hover {
-      background: #24324d;
+    .btn-ghost:hover {
+      background: var(--surface-hover);
+      opacity: 1;
     }
 
     .btn-heal {
-      background: rgba(16, 185, 129, 0.16);
-      border: 1px solid rgba(16, 185, 129, 0.45);
+      background: var(--green-bg);
       color: var(--green);
+      border: 1px solid rgba(16, 185, 129, 0.35);
     }
 
     .btn-heal:hover {
-      background: rgba(16, 185, 129, 0.28);
+      background: rgba(16, 185, 129, 0.22);
+      opacity: 1;
     }
 
-    .btn-danger {
-      background: rgba(239, 68, 68, 0.14);
-      border: 1px solid rgba(239, 68, 68, 0.38);
-      color: var(--red);
+    .btn-xs {
+      padding: 0.2rem 0.5rem;
+      font-size: 0.7rem;
+      border-radius: 4px;
     }
 
-    .btn-danger:hover {
-      background: rgba(239, 68, 68, 0.25);
-    }
-
-    /* Toast Notification */
+    /* Toast */
     #toast {
-      margin-top: 0.85rem;
-      font-size: 0.86rem;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
+      margin-top: 0.65rem;
+      font-size: 0.78rem;
+      padding: 0.55rem 0.85rem;
+      border-radius: 6px;
       display: none;
-      font-weight: 500;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
 
     .toast-ok {
       display: block !important;
       background: var(--green-bg);
       color: var(--green);
-      border: 1px solid rgba(16, 185, 129, 0.4);
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
     .toast-err {
       display: block !important;
       background: var(--red-bg);
       color: var(--red);
-      border: 1px solid rgba(239, 68, 68, 0.4);
+      border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
-    /* Files Table */
-    .table-wrapper {
+    /* Minimalist Table */
+    .table-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -499,19 +374,18 @@
     }
 
     th, td {
-      padding: 0.95rem 1.1rem;
+      padding: 0.85rem 1rem;
       border-bottom: 1px solid var(--border);
-      font-size: 0.86rem;
+      font-size: 0.82rem;
       vertical-align: middle;
     }
 
     th {
       color: var(--muted);
       font-weight: 600;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      background: rgba(9, 13, 22, 0.5);
+      letter-spacing: 0.08em;
     }
 
     tr:last-child td {
@@ -520,260 +394,183 @@
 
     .mono {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.8rem;
+      font-size: 0.77rem;
     }
 
-    .hash-box {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(9, 13, 22, 0.6);
-      border: 1px solid var(--border);
-      padding: 0.22rem 0.55rem;
-      border-radius: 6px;
+    .hash-chip {
       color: var(--muted);
       cursor: pointer;
-      transition: border-color 0.15s;
+      border-bottom: 1px dotted var(--border-light);
+      transition: color 0.15s;
     }
 
-    .hash-box:hover {
-      border-color: var(--accent);
+    .hash-chip:hover {
       color: var(--text);
     }
 
-    .replica-pills {
+    .replica-row {
       display: flex;
+      align-items: center;
+      gap: 0.5rem;
       flex-wrap: wrap;
-      gap: 0.45rem;
-      margin-top: 0.45rem;
     }
 
-    .replica-pill {
+    .node-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.38rem;
-      background: rgba(9, 13, 22, 0.65);
+      gap: 0.3rem;
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.24rem 0.55rem;
-      font-size: 0.74rem;
+      background: var(--bg);
+      padding: 0.14rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      color: var(--muted);
     }
 
-    .pill-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 4px;
+    .node-pill button {
+      background: none;
+      border: none;
       color: var(--muted);
       cursor: pointer;
-      font-size: 0.68rem;
-      padding: 0.08rem 0.35rem;
-      transition: all 0.15s;
+      font-size: 0.66rem;
+      text-decoration: underline;
+      padding: 0 0.1rem;
     }
 
-    .pill-btn:hover {
-      background: rgba(239, 68, 68, 0.2);
-      color: #fca5a5;
-      border-color: rgba(239, 68, 68, 0.4);
+    .node-pill button:hover {
+      color: var(--red);
     }
 
     .actions-cell {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.45rem;
       align-items: center;
-      flex-wrap: wrap;
     }
 
     .empty-state {
       text-align: center;
-      padding: 2.5rem;
+      padding: 2.25rem;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.82rem;
     }
 
-    /* Event Log */
-    .log-box {
+    /* Minimal Event Stream */
+    .log-stream {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 0.95rem 1.15rem;
-      max-height: 220px;
+      padding: 0.75rem 1rem;
+      max-height: 150px;
       overflow-y: auto;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.79rem;
+      font-size: 0.73rem;
       display: flex;
       flex-direction: column;
-      gap: 0.42rem;
+      gap: 0.3rem;
     }
 
-    .log-entry {
+    .log-line {
       display: flex;
-      gap: 0.65rem;
-      line-height: 1.45;
+      gap: 0.6rem;
+      color: var(--muted);
     }
 
-    .log-time { color: var(--muted); flex-shrink: 0; }
-    .log-SUCCESS { color: var(--green); font-weight: 600; }
-    .log-WARN { color: var(--amber); font-weight: 600; }
-    .log-ERROR { color: var(--red); font-weight: 600; }
-    .log-INFO { color: #60a5fa; font-weight: 600; }
+    .log-SUCCESS { color: var(--green); }
+    .log-WARN { color: var(--amber); }
+    .log-ERROR { color: var(--red); }
+    .log-INFO { color: var(--text); }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <div class="brand">
-        <div class="brand-icon">V</div>
-        <div>
-          <h1>Vault Distributed Storage</h1>
-          <div class="subtitle">3-Node Replicated Object Store • Automatic SHA-256 Failover &amp; Self-Healing</div>
+      <div class="logo-lockup">
+        <div class="logo-mark">S//H</div>
+        <div class="logo-text-group">
+          <div class="logo-title">
+            SHIT IS HARD.
+            <span class="logo-tag">VAULT v1.0</span>
+          </div>
+          <div class="logo-sub">distributed object storage // sha-256 self-healing cluster</div>
         </div>
       </div>
       <div class="status-pill">
         <span class="pulse-dot" id="poll-dot"></span>
-        <span id="last-updated">Connecting to cluster...</span>
+        <span id="last-updated">polling /status (2s)</span>
       </div>
     </header>
 
-    <!-- User-Friendly Step-by-Step Guide -->
-    <div class="guide-banner">
-      <div class="guide-step">
-        <div class="step-num">1</div>
-        <div class="step-text">
-          <strong>Upload or Generate a File</strong>
-          <span>Drop any file below or click "Create Demo File" to replicate across all 3 storage nodes.</span>
-        </div>
-      </div>
-      <div class="guide-step">
-        <div class="step-num">2</div>
-        <div class="step-text">
-          <strong>Simulate a Fault or Bit-Rot</strong>
-          <span>Turn a node offline, or click "Corrupt" / "Delete" on any file replica in the table.</span>
-        </div>
-      </div>
-      <div class="guide-step">
-        <div class="step-num">3</div>
-        <div class="step-text">
-          <strong>Download &amp; Self-Heal</strong>
-          <span>Click "Download" to see automatic SHA-256 failover, or "Self-Heal" to repair missing copies.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Top KPI Cards -->
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <span class="kpi-label">Cluster Health</span>
-        <div class="kpi-value" id="kpi-nodes">3 / 3 Online</div>
-        <span class="kpi-sub" id="kpi-nodes-sub">All storage nodes responding (&lt;1s timeout)</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Stored Objects</span>
-        <div class="kpi-value" id="kpi-files">0 Files</div>
-        <span class="kpi-sub" id="kpi-size">0 B logical • 0 B replicated</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Replication Integrity</span>
-        <div class="kpi-value" id="kpi-integrity">100% Verified</div>
-        <span class="kpi-sub" id="kpi-integrity-sub">SHA-256 checksums match across replicas</span>
-      </div>
-    </div>
-
-    <!-- Storage Nodes Section -->
     <section>
-      <div class="section-header">
-        <div class="section-title">Storage Nodes</div>
-        <div class="section-hint">Real-time health polled every 2 seconds • Toggle any node to simulate an outage</div>
+      <div class="section-bar">
+        <span class="section-label">01 / Storage Nodes</span>
+        <span class="section-label" id="nodes-summary">3 / 3 ONLINE</span>
       </div>
       <div class="nodes-grid" id="nodes-container"></div>
     </section>
 
-    <!-- Friendly Upload Section -->
     <section>
-      <div class="section-header">
-        <div class="section-title">Upload Object to Vault</div>
-        <div class="section-hint">Files are written concurrently to all active nodes and verified with SHA-256</div>
+      <div class="section-bar">
+        <span class="section-label">02 / Ingest Object</span>
+        <span class="section-label">3x Concurrent Replication</span>
       </div>
-      <div class="upload-grid">
-        <label class="dropzone" id="dropzone" for="file-input">
-          <input type="file" id="file-input" name="file" />
-          <div class="dropzone-title" id="dropzone-title">Click to choose a file or drag &amp; drop it here</div>
-          <div class="dropzone-sub" id="dropzone-sub">Supports any binary or text file • Instant 3x replication</div>
-          <button type="button" class="btn" id="select-file-btn" onclick="document.getElementById('file-input').click()">Choose File from Computer</button>
-        </label>
-        <div class="upload-side-card">
-          <div>
-            <div style="font-weight:700; font-size:0.95rem; margin-bottom:0.35rem;">Quick Test Generator</div>
-            <p style="font-size:0.8rem; color:var(--muted);">
-              Don't want to pick a file? Generate a sample snapshot file with one click to test replication, corruption failover, and self-healing immediately.
-            </p>
-          </div>
-          <button type="button" class="btn btn-secondary" id="demo-btn" style="width:100%;">+ Create Demo File</button>
-        </div>
+      <div class="upload-bar">
+        <form id="upload-form" class="upload-form">
+          <input type="file" id="file-input" name="file" required />
+          <button type="submit" class="btn" id="upload-btn">Upload</button>
+        </form>
+        <button type="button" class="btn btn-ghost" id="demo-btn">+ Seed Sample Blob</button>
       </div>
       <div id="toast"></div>
     </section>
 
-    <!-- Stored Files & Self-Healing Table -->
     <section>
-      <div class="section-header">
-        <div class="section-title">Stored Files &amp; Self-Healing Control Center</div>
-        <div style="display:flex; gap:0.5rem; align-items:center;">
-          <button class="btn btn-heal btn-sm" id="heal-all-btn" onclick="healAllFiles()">Self-Heal All Files</button>
-        </div>
+      <div class="section-bar">
+        <span class="section-label">03 / Replicated Objects</span>
+        <span class="section-label">SHA-256 Verified</span>
       </div>
-      <div class="table-wrapper">
+      <div class="table-card">
         <table>
           <thead>
             <tr>
-              <th>File</th>
+              <th>Filename</th>
               <th>Size</th>
-              <th>SHA-256 Checksum</th>
-              <th>Replica Status (Click to Corrupt / Delete)</th>
+              <th>SHA-256 Digest</th>
+              <th>Active Replicas</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody id="files-tbody">
             <tr>
-              <td colspan="5" class="empty-state">No objects stored yet. Drop a file above or click "+ Create Demo File".</td>
+              <td colspan="5" class="empty-state">No objects stored.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- Activity Log -->
     <section>
-      <div class="section-header">
-        <div class="section-title">Live Cluster Event Log</div>
-        <div class="section-hint">Shows real-time SHA-256 verifications, automatic download failovers, and repairs</div>
+      <div class="section-bar">
+        <span class="section-label">04 / Cluster Telemetry</span>
       </div>
-      <div class="log-box" id="event-log"></div>
+      <div class="log-stream" id="event-log"></div>
     </section>
   </div>
 
   <script>
     const nodesContainer = document.getElementById("nodes-container");
+    const nodesSummary = document.getElementById("nodes-summary");
     const filesTbody = document.getElementById("files-tbody");
     const eventLogEl = document.getElementById("event-log");
     const lastUpdatedEl = document.getElementById("last-updated");
     const pollDot = document.getElementById("poll-dot");
+    const uploadForm = document.getElementById("upload-form");
     const fileInput = document.getElementById("file-input");
-    const dropzone = document.getElementById("dropzone");
-    const dropzoneTitle = document.getElementById("dropzone-title");
+    const uploadBtn = document.getElementById("upload-btn");
     const demoBtn = document.getElementById("demo-btn");
     const toastEl = document.getElementById("toast");
 
-    const kpiNodes = document.getElementById("kpi-nodes");
-    const kpiNodesSub = document.getElementById("kpi-nodes-sub");
-    const kpiFiles = document.getElementById("kpi-files");
-    const kpiSize = document.getElementById("kpi-size");
-    const kpiIntegrity = document.getElementById("kpi-integrity");
-    const kpiIntegritySub = document.getElementById("kpi-integrity-sub");
-
-    let currentClusterFiles = [];
     let standaloneMode = false;
 
-    // Built-in browser cluster engine used automatically when hosted on static GitHub Pages
     const browserCluster = {
       nodes: {
         8001: { status: "ONLINE", files: {} },
@@ -791,7 +588,7 @@
         level,
         message,
       });
-      browserCluster.events = browserCluster.events.slice(0, 20);
+      browserCluster.events = browserCluster.events.slice(0, 15);
     }
 
     async function sha256Hex(uint8) {
@@ -804,9 +601,8 @@
     async function initBrowserCluster() {
       if (browserCluster.initialized) return;
       browserCluster.initialized = true;
-      const encoder = new TextEncoder();
-      const bytes = encoder.encode(
-        "Vault Distributed Object Storage\nReplication Factor: 3 (Nodes 8001, 8002, 8003)\nSHA-256 Integrity Verified.\n"
+      const bytes = new TextEncoder().encode(
+        "SHIT IS HARD // Vault Distributed Object Storage\nReplication Factor: 3 (Nodes 8001, 8002, 8003)\n"
       );
       const hash = await sha256Hex(bytes);
       const fname = "vault-architecture.txt";
@@ -820,7 +616,7 @@
         uploaded_at: new Date().toISOString(),
         replicas: [8001, 8002, 8003],
       };
-      logBrowserEvent("SUCCESS", `Cluster initialized. Seeded '${fname}' across nodes [8001, 8002, 8003].`);
+      logBrowserEvent("SUCCESS", `Seeded '${fname}' across nodes [8001, 8002, 8003].`);
     }
 
     function getBrowserClusterStatus() {
@@ -839,7 +635,6 @@
 
       const files = Object.values(browserCluster.registry).map((meta) => {
         const active_replicas = [];
-        const corrupted_replicas = [];
         const node_states = {};
         for (const port of [8001, 8002, 8003]) {
           const n = browserCluster.nodes[port];
@@ -855,17 +650,14 @@
             active_replicas.push(port);
           } else {
             node_states[port] = "CORRUPTED";
-            corrupted_replicas.push(port);
           }
         }
         return {
           filename: meta.filename,
           sha256: meta.sha256,
           size: meta.size,
-          uploaded_at: meta.uploaded_at,
           replicas: meta.replicas,
           active_replicas,
-          corrupted_replicas,
           node_states,
           active_replica_count: active_replicas.length,
           total_nodes: 3,
@@ -882,7 +674,7 @@
       window._toastTimer = setTimeout(() => {
         toastEl.className = "";
         toastEl.style.display = "none";
-      }, 5000);
+      }, 4500);
     }
 
     function formatBytes(bytes) {
@@ -900,69 +692,29 @@
 
     function copyHash(hash) {
       navigator.clipboard?.writeText(hash);
-      showToast(`Copied SHA-256 checksum to clipboard: ${hash.slice(0, 16)}...`);
-    }
-
-    function updateKPIs(nodes, files) {
-      const onlineCount = nodes.filter((n) => n.status === "ONLINE").length;
-      kpiNodes.textContent = `${onlineCount} / ${nodes.length} Online`;
-      kpiNodes.style.color = onlineCount === nodes.length ? "var(--green)" : onlineCount > 0 ? "var(--amber)" : "var(--red)";
-      kpiNodesSub.textContent =
-        onlineCount === nodes.length
-          ? "All storage nodes healthy"
-          : `${nodes.length - onlineCount} node(s) currently unreachable`;
-
-      const logicalBytes = files.reduce((acc, f) => acc + (f.size || 0), 0);
-      const replicatedBytes = files.reduce((acc, f) => acc + (f.size || 0) * (f.active_replica_count || 0), 0);
-      kpiFiles.textContent = `${files.length} ${files.length === 1 ? "Object" : "Objects"}`;
-      kpiSize.textContent = `${formatBytes(logicalBytes)} logical • ${formatBytes(replicatedBytes)} across replicas`;
-
-      const degradedFiles = files.filter((f) => f.active_replica_count < f.total_nodes);
-      if (files.length === 0 || degradedFiles.length === 0) {
-        kpiIntegrity.textContent = "100% Healthy";
-        kpiIntegrity.style.color = "var(--green)";
-        kpiIntegritySub.textContent = "All objects have 3/3 verified SHA-256 replicas";
-      } else {
-        kpiIntegrity.textContent = `${degradedFiles.length} Degraded`;
-        kpiIntegrity.style.color = "var(--amber)";
-        kpiIntegritySub.textContent = `Click "Self-Heal" to restore missing or corrupted replicas`;
-      }
+      showToast(`Copied SHA-256: ${hash}`);
     }
 
     function renderNodes(nodes) {
+      const onlineCount = nodes.filter((n) => n.status === "ONLINE").length;
+      nodesSummary.textContent = `${onlineCount} / ${nodes.length} ONLINE`;
+
       nodesContainer.innerHTML = nodes
-        .map((node, idx) => {
+        .map((node) => {
           const isOnline = node.status === "ONLINE";
           const badgeClass = isOnline ? "badge-online" : "badge-dead";
           const badgeLabel = isOnline ? "ONLINE" : "DEAD";
-          const toggleBtnClass = isOnline ? "btn-danger" : "btn-heal";
-          const toggleBtnText = isOnline ? "Turn Node Offline" : "Bring Node Online";
-          const filesList = node.stored_files || [];
-
-          const filesHtml = !isOnline
-            ? `<span style="color:var(--red);">Node unreachable — connection refused / timeout</span>`
-            : filesList.length === 0
-            ? `<span>No blobs currently stored on disk</span>`
-            : `<div class="node-file-tags">${filesList
-                .map((f) => `<span class="node-file-tag">${escapeHtml(f)}</span>`)
-                .join("")}</div>`;
+          const toggleLabel = isOnline ? "Kill Node" : "Boot Node";
 
           return `
-          <div class="node-card ${isOnline ? "" : "node-dead"}">
-            <div class="node-header">
-              <div class="node-title-group">
-                <span class="node-name">Storage Node ${idx + 1} (:${node.port})</span>
-                <span class="node-path">storage/node_${node.port}/</span>
-              </div>
+          <div class="node-card ${isOnline ? "" : "dead"}">
+            <div class="node-top">
+              <span class="node-id">node_${node.port}</span>
               <span class="badge ${badgeClass}">${badgeLabel}</span>
             </div>
-            <div class="node-files-preview">
-              <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em;">On-Disk Blobs (${node.stored_files_count}):</div>
-              ${filesHtml}
-            </div>
-            <div class="node-footer">
-              <span style="font-size:0.76rem; color:var(--muted);">${escapeHtml(node.url)}</span>
-              <button class="btn btn-sm ${toggleBtnClass}" onclick="toggleNode(${node.port})">${toggleBtnText}</button>
+            <div class="node-bottom">
+              <span class="mono">:${node.port} • ${node.stored_files_count} blobs</span>
+              <button class="btn btn-ghost btn-xs" onclick="toggleNode(${node.port})">${toggleLabel}</button>
             </div>
           </div>
         `;
@@ -971,11 +723,10 @@
     }
 
     function renderFiles(files) {
-      currentClusterFiles = files || [];
       if (!files || files.length === 0) {
         filesTbody.innerHTML = `
           <tr>
-            <td colspan="5" class="empty-state">No objects stored yet. Drop a file above or click "+ Create Demo File".</td>
+            <td colspan="5" class="empty-state">No objects stored yet. Upload a file or click "+ Seed Sample Blob".</td>
           </tr>
         `;
         return;
@@ -986,14 +737,8 @@
           const count = file.active_replica_count;
           const total = file.total_nodes;
           let badgeClass = "badge-online";
-          let statusLabel = `${count} / ${total} Healthy`;
-          if (count === 0) {
-            badgeClass = "badge-dead";
-            statusLabel = `0 / ${total} Available`;
-          } else if (count < total) {
-            badgeClass = "badge-warn";
-            statusLabel = `${count} / ${total} Degraded — Needs Heal`;
-          }
+          if (count === 0) badgeClass = "badge-dead";
+          else if (count < total) badgeClass = "badge-warn";
 
           const encodedName = encodeURIComponent(file.filename);
           const safeName = escapeHtml(file.filename);
@@ -1002,49 +747,45 @@
           const pillsHtml = [8001, 8002, 8003]
             .map((port) => {
               const st = states[port] || "UNKNOWN";
-              let dotColor = "var(--muted)";
-              let actions = "";
+              let dot = "var(--muted)";
+              let ctrl = "";
               if (st === "HEALTHY") {
-                dotColor = "var(--green)";
-                actions = `
-                <button class="pill-btn" title="Simulate byte corruption on Node ${port}" onclick="corruptReplica(${port}, '${encodedName}', '${safeName}')">Corrupt</button>
-                <button class="pill-btn" title="Delete file from Node ${port}" onclick="deleteReplica(${port}, '${encodedName}', '${safeName}')">Delete</button>
-              `;
-              } else if (st === "CORRUPTED") {
-                dotColor = "var(--red)";
+                dot = "var(--green)";
+                ctrl = `<button title="Corrupt replica on :${port}" onclick="corruptReplica(${port}, '${encodedName}', '${safeName}')">corrupt</button>`;
+              } else if (st === "CORRUPTED" || st === "OFFLINE") {
+                dot = "var(--red)";
               } else if (st === "MISSING") {
-                dotColor = "var(--amber)";
-              } else if (st === "OFFLINE") {
-                dotColor = "var(--red)";
+                dot = "var(--amber)";
               }
-
               return `
-              <span class="replica-pill">
-                <span style="width:8px;height:8px;border-radius:50%;background:${dotColor};display:inline-block;"></span>
-                <span class="mono">:${port} <strong>${st}</strong></span>
-                ${actions}
-              </span>
-            `;
+                <span class="node-pill mono">
+                  <span style="width:6px;height:6px;border-radius:50%;background:${dot};display:inline-block;"></span>
+                  :${port}
+                  ${ctrl}
+                </span>
+              `;
             })
             .join("");
 
           return `
           <tr>
-            <td class="mono"><strong>${safeName}</strong></td>
-            <td>${formatBytes(file.size)}</td>
+            <td class="mono">${safeName}</td>
+            <td class="mono" style="color:var(--muted);">${formatBytes(file.size)}</td>
             <td>
-              <span class="hash-box mono" title="Click to copy full SHA-256: ${escapeHtml(file.sha256)}" onclick="copyHash('${escapeHtml(file.sha256)}')">
-                ${escapeHtml(file.sha256.slice(0, 14))}... 📋
+              <span class="hash-chip mono" title="${escapeHtml(file.sha256)} (Click to copy)" onclick="copyHash('${escapeHtml(file.sha256)}')">
+                ${escapeHtml(file.sha256.slice(0, 16))}…
               </span>
             </td>
             <td>
-              <div><span class="badge ${badgeClass}">${statusLabel}</span></div>
-              <div class="replica-pills">${pillsHtml}</div>
+              <div class="replica-row">
+                <span class="badge ${badgeClass}">${count}/${total}</span>
+                ${pillsHtml}
+              </div>
             </td>
             <td>
               <div class="actions-cell">
-                <button class="btn btn-secondary btn-sm" onclick="downloadVerified('${encodedName}', '${safeName}')">⬇ Download</button>
-                <button class="btn btn-heal btn-sm" onclick="triggerRepair('${encodedName}', '${safeName}')">✦ Self-Heal</button>
+                <button class="btn btn-ghost btn-xs" onclick="downloadVerified('${encodedName}', '${safeName}')">Download</button>
+                <button class="btn btn-heal btn-xs" onclick="triggerRepair('${encodedName}', '${safeName}')">Self-Heal</button>
               </div>
             </td>
           </tr>
@@ -1058,9 +799,9 @@
       eventLogEl.innerHTML = events
         .map(
           (ev) => `
-        <div class="log-entry">
-          <span class="log-time">[${escapeHtml(ev.time)}]</span>
-          <span class="log-${escapeHtml(ev.level)}">[${escapeHtml(ev.level)}]</span>
+        <div class="log-line">
+          <span>${escapeHtml(ev.time)}</span>
+          <span class="log-${escapeHtml(ev.level)}">${escapeHtml(ev.level)}</span>
           <span>${escapeHtml(ev.message)}</span>
         </div>
       `
@@ -1074,121 +815,96 @@
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         standaloneMode = false;
-        updateKPIs(data.nodes || [], data.files || []);
         renderNodes(data.nodes || []);
         renderFiles(data.files || []);
         renderEvents(data.events || []);
         pollDot.style.backgroundColor = "var(--green)";
-        pollDot.style.boxShadow = "0 0 10px var(--green)";
-        lastUpdatedEl.textContent = `Connected to FastAPI Cluster • ${new Date().toLocaleTimeString()}`;
+        lastUpdatedEl.textContent = `live • ${new Date().toLocaleTimeString()}`;
       } catch (err) {
         standaloneMode = true;
         await initBrowserCluster();
         const data = getBrowserClusterStatus();
-        updateKPIs(data.nodes, data.files);
         renderNodes(data.nodes);
         renderFiles(data.files);
         renderEvents(data.events);
         pollDot.style.backgroundColor = "var(--green)";
-        pollDot.style.boxShadow = "0 0 10px var(--green)";
-        lastUpdatedEl.textContent = `Interactive Cloud Mode • ${new Date().toLocaleTimeString()}`;
+        lastUpdatedEl.textContent = `cloud-sim • ${new Date().toLocaleTimeString()}`;
       }
     }
 
-    async function handleFileUpload(file) {
+    async function uploadFileObj(file) {
       if (!file) return;
-      dropzoneTitle.textContent = `Uploading '${file.name}'...`;
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = "Uploading...";
 
-      if (standaloneMode) {
-        const buf = new Uint8Array(await file.arrayBuffer());
-        const hash = await sha256Hex(buf);
-        const onlinePorts = [8001, 8002, 8003].filter((p) => browserCluster.nodes[p].status === "ONLINE");
-        if (onlinePorts.length === 0) {
-          showToast("Upload failed: All storage nodes are offline!", true);
-          dropzoneTitle.textContent = "Click to choose a file or drag & drop it here";
+      try {
+        if (standaloneMode) {
+          const buf = new Uint8Array(await file.arrayBuffer());
+          const hash = await sha256Hex(buf);
+          const onlinePorts = [8001, 8002, 8003].filter((p) => browserCluster.nodes[p].status === "ONLINE");
+          if (onlinePorts.length === 0) throw new Error("No ONLINE storage nodes available");
+          for (const p of onlinePorts) {
+            browserCluster.nodes[p].files[file.name] = { bytes: new Uint8Array(buf), sha256: hash };
+          }
+          browserCluster.registry[file.name] = {
+            filename: file.name,
+            sha256: hash,
+            size: buf.byteLength,
+            replicas: onlinePorts,
+          };
+          logBrowserEvent("SUCCESS", `Stored '${file.name}' (${hash.slice(0, 10)}…) on [${onlinePorts.join(", ")}].`);
+          showToast(`Uploaded '${file.name}' (${onlinePorts.length}/3 replicas verified)`);
+          uploadForm.reset();
+          await fetchStatus();
           return;
         }
-        for (const p of onlinePorts) {
-          browserCluster.nodes[p].files[file.name] = { bytes: new Uint8Array(buf), sha256: hash };
-        }
-        browserCluster.registry[file.name] = {
-          filename: file.name,
-          sha256: hash,
-          size: buf.byteLength,
-          uploaded_at: new Date().toISOString(),
-          replicas: onlinePorts,
-        };
-        logBrowserEvent("SUCCESS", `Uploaded '${file.name}' (${buf.byteLength} B, SHA-256: ${hash.slice(0, 12)}...) to nodes [${onlinePorts.join(", ")}].`);
-        showToast(`Uploaded '${file.name}' to ${onlinePorts.length}/3 nodes!`);
-        dropzoneTitle.textContent = "Click to choose a file or drag & drop it here";
-        await fetchStatus();
-        return;
-      }
 
-      const formData = new FormData();
-      formData.append("file", file);
-      try {
+        const formData = new FormData();
+        formData.append("file", file);
         const res = await fetch("/upload", { method: "POST", body: formData });
         const payload = await res.json();
         if (!res.ok) throw new Error(payload.detail?.message || payload.detail || "Upload failed");
-        showToast(`Uploaded '${payload.filename}' (${payload.active_replica_count}/${payload.total_nodes} replicas verified)`);
-        fileInput.value = "";
+        showToast(`Uploaded '${payload.filename}' (${payload.active_replica_count}/${payload.total_nodes} replicas)`);
+        uploadForm.reset();
         await fetchStatus();
       } catch (err) {
-        showToast(`Upload error: ${err.message}`, true);
+        showToast(`Error: ${err.message}`, true);
       } finally {
-        dropzoneTitle.textContent = "Click to choose a file or drag & drop it here";
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = "Upload";
       }
     }
 
-    fileInput.addEventListener("change", () => {
-      if (fileInput.files.length > 0) {
-        handleFileUpload(fileInput.files[0]);
-      }
-    });
-
-    dropzone.addEventListener("dragover", (e) => {
+    uploadForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      dropzone.classList.add("dragover");
-    });
-
-    dropzone.addEventListener("dragleave", () => {
-      dropzone.classList.remove("dragover");
-    });
-
-    dropzone.addEventListener("drop", (e) => {
-      e.preventDefault();
-      dropzone.classList.remove("dragover");
-      if (e.dataTransfer.files.length > 0) {
-        handleFileUpload(e.dataTransfer.files[0]);
-      }
+      if (fileInput.files.length) await uploadFileObj(fileInput.files[0]);
     });
 
     demoBtn.addEventListener("click", async () => {
       const id = Math.floor(1000 + Math.random() * 9000);
-      const filename = `dataset-block-${id}.txt`;
-      const content = `Vault Distributed Storage Block #${id}\nCreated: ${new Date().toISOString()}\nIntegrity: Protected by SHA-256 verification and automatic self-healing.\n`;
-      const file = new File([content], filename, { type: "text/plain" });
-      await handleFileUpload(file);
+      const fname = `blob-${id}.bin`;
+      const file = new File([`SHIT IS HARD // VAULT BLOCK #${id} // ${new Date().toISOString()}\n`], fname, {
+        type: "application/octet-stream",
+      });
+      await uploadFileObj(file);
     });
 
     async function toggleNode(port) {
       if (standaloneMode) {
         const n = browserCluster.nodes[port];
         n.status = n.status === "ONLINE" ? "DEAD" : "ONLINE";
-        logBrowserEvent(n.status === "DEAD" ? "WARN" : "SUCCESS", `Node :${port} switched to ${n.status}.`);
-        showToast(`Node :${port} is now ${n.status}`, n.status === "DEAD");
+        logBrowserEvent(n.status === "DEAD" ? "WARN" : "SUCCESS", `node_${port} is now ${n.status}.`);
+        showToast(`node_${port} -> ${n.status}`, n.status === "DEAD");
         await fetchStatus();
         return;
       }
       try {
         const res = await fetch(`/node/${port}/toggle`, { method: "POST" });
         const payload = await res.json();
-        if (!res.ok) throw new Error(payload.detail || "Failed to toggle node");
-        showToast(`Node :${port} is now ${payload.status}`, payload.status === "DEAD");
+        showToast(`node_${port} -> ${payload.status}`, payload.status === "DEAD");
         await fetchStatus();
       } catch (err) {
-        showToast(`Failed to toggle node :${port}: ${err.message}`, true);
+        showToast(`Error: ${err.message}`, true);
       }
     }
 
@@ -1202,36 +918,15 @@
           bad[0] ^= 0xff;
           f.bytes = bad;
           f.sha256 = await sha256Hex(bad);
-          logBrowserEvent("WARN", `Injected byte corruption into '${fname}' on Node :${port} (new hash: ${f.sha256.slice(0, 10)}...).`);
-          showToast(`Corrupted '${displayName}' on Node :${port}! Click Download to test failover or Self-Heal to repair.`, true);
+          logBrowserEvent("WARN", `Corrupted '${fname}' on :${port}.`);
+          showToast(`Corrupted '${displayName}' on :${port}. Click Download or Self-Heal.`, true);
           await fetchStatus();
         }
         return;
       }
       try {
-        const res = await fetch(`/node/${port}/corrupt/${encodedName}`, { method: "POST" });
-        const payload = await res.json();
-        if (!res.ok) throw new Error(payload.detail || "Failed to corrupt file");
-        showToast(`Corrupted '${displayName}' on Node :${port}! Click Download to test failover or Self-Heal to repair.`, true);
-        await fetchStatus();
-      } catch (err) {
-        showToast(`Error: ${err.message}`, true);
-      }
-    }
-
-    async function deleteReplica(port, encodedName, displayName) {
-      if (standaloneMode) {
-        const fname = decodeURIComponent(encodedName);
-        delete browserCluster.nodes[port].files[fname];
-        logBrowserEvent("WARN", `Deleted replica of '${fname}' from Node :${port}.`);
-        showToast(`Deleted '${displayName}' from Node :${port}. Click Self-Heal to re-replicate.`, true);
-        await fetchStatus();
-        return;
-      }
-      try {
-        const res = await fetch(`/node/${port}/file/${encodedName}`, { method: "DELETE" });
-        if (!res.ok) throw new Error("Failed to delete replica");
-        showToast(`Deleted '${displayName}' from Node :${port}. Click Self-Heal to re-replicate.`, true);
+        await fetch(`/node/${port}/corrupt/${encodedName}`, { method: "POST" });
+        showToast(`Corrupted '${displayName}' on :${port}. Click Download or Self-Heal.`, true);
         await fetchStatus();
       } catch (err) {
         showToast(`Error: ${err.message}`, true);
@@ -1242,18 +937,12 @@
       if (standaloneMode) {
         const fname = decodeURIComponent(encodedName);
         const meta = browserCluster.registry[fname];
-        let failed = 0;
         for (const port of [8001, 8002, 8003]) {
           const n = browserCluster.nodes[port];
-          if (n.status !== "ONLINE" || !n.files[fname]) {
-            failed++;
-            logBrowserEvent("WARN", `Download '${fname}': Node :${port} unavailable or missing file, failing over...`);
-            continue;
-          }
+          if (n.status !== "ONLINE" || !n.files[fname]) continue;
           const actualHash = await sha256Hex(n.files[fname].bytes);
           if (actualHash !== meta.sha256) {
-            failed++;
-            logBrowserEvent("WARN", `Corruption detected on Node :${port} for '${fname}'! Failing over to next replica...`);
+            logBrowserEvent("WARN", `SHA-256 mismatch on :${port} for '${fname}' — failing over...`);
             continue;
           }
           const blob = new Blob([n.files[fname].bytes], { type: "application/octet-stream" });
@@ -1265,24 +954,19 @@
           a.click();
           a.remove();
           URL.revokeObjectURL(url);
-          logBrowserEvent("SUCCESS", `Served verified download of '${fname}' from Node :${port} (SHA-256 verified).`);
-          showToast(`Downloaded '${displayName}' — Verified SHA-256 served by Node :${port}`);
+          logBrowserEvent("SUCCESS", `Served verified '${fname}' from :${port}.`);
+          showToast(`Downloaded '${displayName}' (verified from :${port})`);
           await fetchStatus();
           return;
         }
-        showToast(`Download failed: All replicas of '${displayName}' are offline or corrupted!`, true);
-        await fetchStatus();
+        showToast(`Download failed: all replicas offline or corrupted`, true);
         return;
       }
 
       try {
         const res = await fetch(`/download/${encodedName}`);
-        if (!res.ok) {
-          const errBody = await res.json().catch(() => ({}));
-          throw new Error(errBody.detail?.message || errBody.detail || `HTTP ${res.status}`);
-        }
-        const servedBy = res.headers.get("X-Served-By-Node") || "unknown";
-        const sha256 = res.headers.get("X-SHA256") || "";
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const servedBy = res.headers.get("X-Served-By-Node") || "node";
         const blob = await res.blob();
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -1292,12 +976,10 @@
         a.click();
         a.remove();
         URL.revokeObjectURL(url);
-
-        showToast(`Downloaded '${displayName}' — Verified SHA-256 (${sha256.slice(0, 10)}...) from Node :${servedBy}`);
+        showToast(`Downloaded '${displayName}' (verified from :${servedBy})`);
         await fetchStatus();
       } catch (err) {
-        showToast(`Download failed for '${displayName}': ${err.message}`, true);
-        await fetchStatus();
+        showToast(`Download failed: ${err.message}`, true);
       }
     }
 
@@ -1321,7 +1003,7 @@
           }
         }
         if (!healthyBytes) {
-          showToast(`Cannot self-heal '${displayFilename}': No online node holds a valid copy!`, true);
+          showToast(`Repair failed: no healthy copy online`, true);
           return;
         }
         for (const p of needRepair) {
@@ -1330,12 +1012,12 @@
             sha256: meta.sha256,
           };
         }
-        if (needRepair.length > 0) {
-          logBrowserEvent("SUCCESS", `Self-healed '${fname}' from Node :${sourceNode} -> repaired Node(s) [${needRepair.join(", ")}].`);
-          showToast(`Self-healed '${displayFilename}' onto Node(s): ${needRepair.join(", ")}`);
-        } else {
-          showToast(`'${displayFilename}' is already healthy across all online nodes`);
-        }
+        logBrowserEvent("SUCCESS", `Repaired '${fname}' from :${sourceNode} -> [${needRepair.join(", ")}].`);
+        showToast(
+          needRepair.length
+            ? `Self-healed '${displayFilename}' -> repaired [${needRepair.join(", ")}]`
+            : `'${displayFilename}' already 3/3 healthy`
+        );
         await fetchStatus();
         return;
       }
@@ -1343,26 +1025,16 @@
       try {
         const res = await fetch(`/repair/${encodedFilename}`, { method: "POST" });
         const payload = await res.json();
-        if (!res.ok) {
-          throw new Error(payload.detail?.message || payload.detail || "Repair failed");
-        }
-        const healedCount = (payload.repaired_nodes || []).length;
-        if (healedCount > 0) {
-          showToast(
-            `Self-healed '${displayFilename}' from Node :${payload.source_node} onto Node(s): ${payload.repaired_nodes.join(", ")}`
-          );
-        } else {
-          showToast(`'${displayFilename}' is already healthy across all online nodes`);
-        }
+        if (!res.ok) throw new Error(payload.detail?.message || payload.detail || "Repair failed");
+        const healed = payload.repaired_nodes || [];
+        showToast(
+          healed.length
+            ? `Self-healed '${displayFilename}' -> repaired [${healed.join(", ")}]`
+            : `'${displayFilename}' already healthy across online nodes`
+        );
         await fetchStatus();
       } catch (err) {
-        showToast(`Self-heal failed for '${displayFilename}': ${err.message}`, true);
-      }
-    }
-
-    async function healAllFiles() {
-      for (const f of currentClusterFiles) {
-        await triggerRepair(encodeURIComponent(f.filename), f.filename);
+        showToast(`Self-heal failed: ${err.message}`, true);
       }
     }
 

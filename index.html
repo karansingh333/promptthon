@@ -3,23 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SHIT IS HARD — Vault Distributed Storage</title>
+  <title>SHIT IS HARD — Private Vault Storage</title>
   <style>
     :root {
-      --bg: #060608;
-      --surface: #0d0d11;
-      --surface-hover: #14141a;
-      --border: #1f1f27;
-      --border-light: #2e2e3a;
-      --text: #f4f4f6;
-      --muted: #7d7d8a;
+      --bg: #050f24;
+      --bg-gradient: linear-gradient(180deg, #071633 0%, #050f24 100%);
+      --surface: #0b1c3d;
+      --surface-elevated: #102652;
+      --surface-hover: #153066;
+      --border: #1d3970;
+      --border-light: #2b5096;
+      --primary: #2563eb;
+      --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      --primary-hover: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+      --text: #f8fafc;
+      --text-secondary: #93b4e0;
+      --muted: #6487b8;
       --green: #10b981;
-      --green-bg: rgba(16, 185, 129, 0.12);
+      --green-bg: rgba(16, 185, 129, 0.15);
       --red: #ef4444;
-      --red-bg: rgba(239, 68, 68, 0.12);
+      --red-bg: rgba(239, 68, 68, 0.15);
       --amber: #f59e0b;
-      --amber-bg: rgba(245, 158, 11, 0.12);
-      --radius: 8px;
+      --amber-bg: rgba(245, 158, 11, 0.15);
+      --radius: 12px;
+      --shadow: 0 10px 30px -10px rgba(2, 8, 23, 0.7);
     }
 
     * {
@@ -29,50 +36,57 @@
     }
 
     body {
+      background: var(--bg-gradient);
       background-color: var(--bg);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
       line-height: 1.5;
-      padding: 2.5rem 1.5rem 4rem;
+      padding: 2.25rem 1.5rem 4rem;
+      min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
 
     .container {
-      max-width: 1020px;
+      max-width: 1040px;
       margin: 0 auto;
     }
 
-    /* Branded Minimalist Header */
+    /* Banking-Style Branded Header */
     header {
+      background: linear-gradient(135deg, #0d234a 0%, #091836 100%);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 1.35rem 1.6rem;
+      margin-bottom: 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 1.75rem;
-      margin-bottom: 2.25rem;
-      border-bottom: 1px solid var(--border);
       flex-wrap: wrap;
       gap: 1rem;
+      box-shadow: var(--shadow);
     }
 
     .logo-lockup {
       display: flex;
       align-items: center;
-      gap: 0.9rem;
+      gap: 1rem;
       user-select: none;
     }
 
     .logo-mark {
-      width: 38px;
-      height: 38px;
-      background: var(--text);
-      color: var(--bg);
-      border-radius: 6px;
+      width: 44px;
+      height: 44px;
+      background: var(--primary-gradient);
+      color: #ffffff;
+      border-radius: 10px;
+      border: 1px solid rgba(147, 197, 253, 0.35);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
       font-size: 0.95rem;
-      letter-spacing: -0.05em;
+      letter-spacing: -0.04em;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       flex-shrink: 0;
     }
@@ -80,46 +94,46 @@
     .logo-text-group {
       display: flex;
       flex-direction: column;
-      gap: 0.1rem;
+      gap: 0.15rem;
     }
 
     .logo-title {
       font-size: 1.35rem;
-      font-weight: 900;
-      letter-spacing: -0.04em;
+      font-weight: 800;
+      letter-spacing: -0.03em;
       text-transform: uppercase;
       line-height: 1.1;
-      color: var(--text);
+      color: #ffffff;
       display: flex;
       align-items: center;
-      gap: 0.55rem;
+      gap: 0.6rem;
     }
 
     .logo-tag {
       font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border-light);
-      padding: 0.12rem 0.45rem;
-      border-radius: 4px;
+      color: #bfdbfe;
+      background: rgba(37, 99, 235, 0.28);
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
     }
 
     .logo-sub {
-      font-size: 0.76rem;
-      color: var(--muted);
-      letter-spacing: 0.02em;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.01em;
     }
 
     .status-pill {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      padding: 0.38rem 0.75rem;
+      border: 1px solid var(--border-light);
+      background: rgba(5, 15, 36, 0.65);
+      padding: 0.45rem 0.9rem;
       border-radius: 999px;
-      font-size: 0.75rem;
-      color: var(--muted);
+      font-size: 0.76rem;
+      color: var(--text-secondary);
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       display: flex;
       align-items: center;
@@ -127,14 +141,15 @@
     }
 
     .pulse-dot {
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background-color: var(--green);
+      box-shadow: 0 0 8px var(--green);
     }
 
     section {
-      margin-bottom: 2.25rem;
+      margin-bottom: 2rem;
     }
 
     .section-bar {
@@ -142,21 +157,22 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.75rem;
+      padding: 0 0.2rem;
     }
 
     .section-label {
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      font-weight: 600;
+      letter-spacing: 0.09em;
+      color: var(--text-secondary);
+      font-weight: 700;
     }
 
     /* Storage Nodes Grid */
     .nodes-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.85rem;
+      gap: 1rem;
     }
 
     @media (max-width: 720px) {
@@ -169,19 +185,22 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1rem 1.15rem;
+      padding: 1.15rem 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      transition: border-color 0.15s ease;
+      gap: 0.85rem;
+      box-shadow: var(--shadow);
+      transition: border-color 0.15s ease, transform 0.15s ease;
     }
 
     .node-card:hover {
       border-color: var(--border-light);
+      transform: translateY(-1px);
     }
 
     .node-card.dead {
-      border-color: rgba(239, 68, 68, 0.4);
+      border-color: rgba(239, 68, 68, 0.45);
+      background: linear-gradient(180deg, rgba(239, 68, 68, 0.07), var(--surface));
     }
 
     .node-top {
@@ -191,20 +210,20 @@
     }
 
     .node-id {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.9rem;
-      font-weight: 600;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      padding: 0.16rem 0.55rem;
-      border-radius: 4px;
-      font-size: 0.68rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.69rem;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
@@ -212,48 +231,49 @@
     .badge-online {
       background: var(--green-bg);
       color: var(--green);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      border: 1px solid rgba(16, 185, 129, 0.35);
     }
 
     .badge-dead {
       background: var(--red-bg);
       color: var(--red);
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      border: 1px solid rgba(239, 68, 68, 0.35);
     }
 
     .badge-warn {
       background: var(--amber-bg);
       color: var(--amber);
-      border: 1px solid rgba(245, 158, 11, 0.3);
+      border: 1px solid rgba(245, 158, 11, 0.35);
     }
 
     .node-bottom {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.76rem;
-      color: var(--muted);
-      padding-top: 0.55rem;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      padding-top: 0.65rem;
       border-top: 1px solid var(--border);
     }
 
-    /* Minimalist Upload Bar */
+    /* Banking Deposit / Upload Bar */
     .upload-bar {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 0.85rem 1rem;
+      padding: 1rem 1.2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
+      gap: 0.85rem;
       flex-wrap: wrap;
+      box-shadow: var(--shadow);
     }
 
     .upload-form {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
+      gap: 0.75rem;
       flex: 1;
       min-width: 260px;
     }
@@ -263,84 +283,87 @@
       background: var(--bg);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 0.42rem 0.65rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
+      padding: 0.48rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
     }
 
     input[type="file"]::file-selector-button {
-      background: var(--surface-hover);
-      color: var(--text);
+      background: var(--surface-elevated);
+      color: #dbeafe;
       border: 1px solid var(--border-light);
-      border-radius: 4px;
-      padding: 0.25rem 0.65rem;
-      margin-right: 0.65rem;
+      border-radius: 6px;
+      padding: 0.3rem 0.75rem;
+      margin-right: 0.75rem;
       cursor: pointer;
-      font-size: 0.76rem;
-      font-weight: 500;
+      font-size: 0.78rem;
+      font-weight: 600;
     }
 
     /* Buttons */
     .btn {
-      background: var(--text);
-      color: var(--bg);
-      border: 1px solid var(--text);
-      border-radius: 6px;
-      padding: 0.45rem 0.9rem;
-      font-size: 0.78rem;
+      background: var(--primary-gradient);
+      color: #ffffff;
+      border: 1px solid rgba(96, 165, 250, 0.35);
+      border-radius: 8px;
+      padding: 0.52rem 1.05rem;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
-      transition: opacity 0.15s ease, background 0.15s ease;
+      transition: all 0.15s ease;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
       white-space: nowrap;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
     }
 
     .btn:hover {
-      opacity: 0.88;
+      background: var(--primary-hover);
+      transform: translateY(-1px);
     }
 
     .btn:disabled {
-      opacity: 0.4;
+      opacity: 0.45;
       cursor: not-allowed;
+      transform: none;
     }
 
     .btn-ghost {
-      background: transparent;
-      color: var(--text);
+      background: var(--surface-elevated);
+      color: #dbeafe;
       border: 1px solid var(--border-light);
+      box-shadow: none;
     }
 
     .btn-ghost:hover {
       background: var(--surface-hover);
-      opacity: 1;
     }
 
     .btn-heal {
-      background: var(--green-bg);
-      color: var(--green);
-      border: 1px solid rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.16);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      box-shadow: none;
     }
 
     .btn-heal:hover {
-      background: rgba(16, 185, 129, 0.22);
-      opacity: 1;
+      background: rgba(16, 185, 129, 0.26);
     }
 
     .btn-xs {
-      padding: 0.2rem 0.5rem;
-      font-size: 0.7rem;
-      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.72rem;
+      border-radius: 6px;
     }
 
     /* Toast */
     #toast {
-      margin-top: 0.65rem;
-      font-size: 0.78rem;
-      padding: 0.55rem 0.85rem;
-      border-radius: 6px;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      padding: 0.65rem 0.95rem;
+      border-radius: 8px;
       display: none;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
@@ -348,23 +371,24 @@
     .toast-ok {
       display: block !important;
       background: var(--green-bg);
-      color: var(--green);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
     }
 
     .toast-err {
       display: block !important;
       background: var(--red-bg);
-      color: var(--red);
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
     }
 
-    /* Minimalist Table */
+    /* Banking Ledger Table */
     .table-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow-x: auto;
+      box-shadow: var(--shadow);
     }
 
     table {
@@ -374,18 +398,23 @@
     }
 
     th, td {
-      padding: 0.85rem 1rem;
+      padding: 0.9rem 1.1rem;
       border-bottom: 1px solid var(--border);
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       vertical-align: middle;
     }
 
     th {
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 0.7rem;
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 0.71rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      background: rgba(5, 15, 36, 0.45);
+    }
+
+    tr:hover td {
+      background: rgba(16, 38, 82, 0.35);
     }
 
     tr:last-child td {
@@ -394,18 +423,22 @@
 
     .mono {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.77rem;
+      font-size: 0.78rem;
     }
 
     .hash-chip {
-      color: var(--muted);
+      color: var(--text-secondary);
       cursor: pointer;
-      border-bottom: 1px dotted var(--border-light);
-      transition: color 0.15s;
+      background: rgba(5, 15, 36, 0.55);
+      border: 1px solid var(--border);
+      padding: 0.18rem 0.5rem;
+      border-radius: 5px;
+      transition: border-color 0.15s, color 0.15s;
     }
 
     .hash-chip:hover {
-      color: var(--text);
+      color: #ffffff;
+      border-color: var(--border-light);
     }
 
     .replica-row {
@@ -418,13 +451,13 @@
     .node-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 0.32rem;
       border: 1px solid var(--border);
-      background: var(--bg);
-      padding: 0.14rem 0.45rem;
-      border-radius: 4px;
-      font-size: 0.7rem;
-      color: var(--muted);
+      background: rgba(5, 15, 36, 0.6);
+      padding: 0.16rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.71rem;
+      color: var(--text-secondary);
     }
 
     .node-pill button {
@@ -432,53 +465,54 @@
       border: none;
       color: var(--muted);
       cursor: pointer;
-      font-size: 0.66rem;
+      font-size: 0.67rem;
       text-decoration: underline;
       padding: 0 0.1rem;
     }
 
     .node-pill button:hover {
-      color: var(--red);
+      color: #f87171;
     }
 
     .actions-cell {
       display: flex;
-      gap: 0.45rem;
+      gap: 0.5rem;
       align-items: center;
     }
 
     .empty-state {
       text-align: center;
-      padding: 2.25rem;
-      color: var(--muted);
-      font-size: 0.82rem;
+      padding: 2.5rem;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
     }
 
-    /* Minimal Event Stream */
+    /* Telemetry Log Stream */
     .log-stream {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 0.75rem 1rem;
-      max-height: 150px;
+      padding: 0.85rem 1.1rem;
+      max-height: 155px;
       overflow-y: auto;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.73rem;
+      font-size: 0.74rem;
       display: flex;
       flex-direction: column;
-      gap: 0.3rem;
+      gap: 0.32rem;
+      box-shadow: var(--shadow);
     }
 
     .log-line {
       display: flex;
-      gap: 0.6rem;
-      color: var(--muted);
+      gap: 0.65rem;
+      color: var(--text-secondary);
     }
 
-    .log-SUCCESS { color: var(--green); }
-    .log-WARN { color: var(--amber); }
-    .log-ERROR { color: var(--red); }
-    .log-INFO { color: var(--text); }
+    .log-SUCCESS { color: var(--green); font-weight: 600; }
+    .log-WARN { color: var(--amber); font-weight: 600; }
+    .log-ERROR { color: var(--red); font-weight: 600; }
+    .log-INFO { color: #60a5fa; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -489,20 +523,20 @@
         <div class="logo-text-group">
           <div class="logo-title">
             SHIT IS HARD.
-            <span class="logo-tag">VAULT v1.0</span>
+            <span class="logo-tag">VAULT LEDGER</span>
           </div>
-          <div class="logo-sub">distributed object storage // sha-256 self-healing cluster</div>
+          <div class="logo-sub">Institutional-Grade Distributed Object Storage &amp; Self-Healing Custody</div>
         </div>
       </div>
       <div class="status-pill">
         <span class="pulse-dot" id="poll-dot"></span>
-        <span id="last-updated">polling /status (2s)</span>
+        <span id="last-updated">Syncing ledger...</span>
       </div>
     </header>
 
     <section>
       <div class="section-bar">
-        <span class="section-label">01 / Storage Nodes</span>
+        <span class="section-label">Vault Storage Nodes</span>
         <span class="section-label" id="nodes-summary">3 / 3 ONLINE</span>
       </div>
       <div class="nodes-grid" id="nodes-container"></div>
@@ -510,38 +544,38 @@
 
     <section>
       <div class="section-bar">
-        <span class="section-label">02 / Ingest Object</span>
-        <span class="section-label">3x Concurrent Replication</span>
+        <span class="section-label">Deposit Object to Vault</span>
+        <span class="section-label">3x Encrypted SHA-256 Replication</span>
       </div>
       <div class="upload-bar">
         <form id="upload-form" class="upload-form">
           <input type="file" id="file-input" name="file" required />
-          <button type="submit" class="btn" id="upload-btn">Upload</button>
+          <button type="submit" class="btn" id="upload-btn">Deposit to Vault</button>
         </form>
-        <button type="button" class="btn btn-ghost" id="demo-btn">+ Seed Sample Blob</button>
+        <button type="button" class="btn btn-ghost" id="demo-btn">+ Generate Test Asset</button>
       </div>
       <div id="toast"></div>
     </section>
 
     <section>
       <div class="section-bar">
-        <span class="section-label">03 / Replicated Objects</span>
-        <span class="section-label">SHA-256 Verified</span>
+        <span class="section-label">Verified Asset Ledger</span>
+        <span class="section-label">Automatic Failover &amp; Self-Heal</span>
       </div>
       <div class="table-card">
         <table>
           <thead>
             <tr>
-              <th>Filename</th>
+              <th>Asset Name</th>
               <th>Size</th>
-              <th>SHA-256 Digest</th>
-              <th>Active Replicas</th>
+              <th>SHA-256 Checksum</th>
+              <th>Custody Replicas</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody id="files-tbody">
             <tr>
-              <td colspan="5" class="empty-state">No objects stored.</td>
+              <td colspan="5" class="empty-state">No assets deposited yet.</td>
             </tr>
           </tbody>
         </table>
@@ -550,7 +584,7 @@
 
     <section>
       <div class="section-bar">
-        <span class="section-label">04 / Cluster Telemetry</span>
+        <span class="section-label">Vault Audit Trail</span>
       </div>
       <div class="log-stream" id="event-log"></div>
     </section>
@@ -700,20 +734,20 @@
       nodesSummary.textContent = `${onlineCount} / ${nodes.length} ONLINE`;
 
       nodesContainer.innerHTML = nodes
-        .map((node) => {
+        .map((node, idx) => {
           const isOnline = node.status === "ONLINE";
           const badgeClass = isOnline ? "badge-online" : "badge-dead";
           const badgeLabel = isOnline ? "ONLINE" : "DEAD";
-          const toggleLabel = isOnline ? "Kill Node" : "Boot Node";
+          const toggleLabel = isOnline ? "Simulate Outage" : "Restore Node";
 
           return `
           <div class="node-card ${isOnline ? "" : "dead"}">
             <div class="node-top">
-              <span class="node-id">node_${node.port}</span>
+              <span class="node-id">Vault Node 0${idx + 1} (:${node.port})</span>
               <span class="badge ${badgeClass}">${badgeLabel}</span>
             </div>
             <div class="node-bottom">
-              <span class="mono">:${node.port} • ${node.stored_files_count} blobs</span>
+              <span class="mono">${node.stored_files_count} verified assets</span>
               <button class="btn btn-ghost btn-xs" onclick="toggleNode(${node.port})">${toggleLabel}</button>
             </div>
           </div>
@@ -726,7 +760,7 @@
       if (!files || files.length === 0) {
         filesTbody.innerHTML = `
           <tr>
-            <td colspan="5" class="empty-state">No objects stored yet. Upload a file or click "+ Seed Sample Blob".</td>
+            <td colspan="5" class="empty-state">No assets stored yet. Deposit a file or click "+ Generate Test Asset".</td>
           </tr>
         `;
         return;
@@ -769,8 +803,8 @@
 
           return `
           <tr>
-            <td class="mono">${safeName}</td>
-            <td class="mono" style="color:var(--muted);">${formatBytes(file.size)}</td>
+            <td class="mono"><strong>${safeName}</strong></td>
+            <td class="mono" style="color:var(--text-secondary);">${formatBytes(file.size)}</td>
             <td>
               <span class="hash-chip mono" title="${escapeHtml(file.sha256)} (Click to copy)" onclick="copyHash('${escapeHtml(file.sha256)}')">
                 ${escapeHtml(file.sha256.slice(0, 16))}…
@@ -819,7 +853,7 @@
         renderFiles(data.files || []);
         renderEvents(data.events || []);
         pollDot.style.backgroundColor = "var(--green)";
-        lastUpdatedEl.textContent = `live • ${new Date().toLocaleTimeString()}`;
+        lastUpdatedEl.textContent = `LIVE • ${new Date().toLocaleTimeString()}`;
       } catch (err) {
         standaloneMode = true;
         await initBrowserCluster();
@@ -828,14 +862,14 @@
         renderFiles(data.files);
         renderEvents(data.events);
         pollDot.style.backgroundColor = "var(--green)";
-        lastUpdatedEl.textContent = `cloud-sim • ${new Date().toLocaleTimeString()}`;
+        lastUpdatedEl.textContent = `CLOUD • ${new Date().toLocaleTimeString()}`;
       }
     }
 
     async function uploadFileObj(file) {
       if (!file) return;
       uploadBtn.disabled = true;
-      uploadBtn.textContent = "Uploading...";
+      uploadBtn.textContent = "Depositing...";
 
       try {
         if (standaloneMode) {
@@ -852,8 +886,8 @@
             size: buf.byteLength,
             replicas: onlinePorts,
           };
-          logBrowserEvent("SUCCESS", `Stored '${file.name}' (${hash.slice(0, 10)}…) on [${onlinePorts.join(", ")}].`);
-          showToast(`Uploaded '${file.name}' (${onlinePorts.length}/3 replicas verified)`);
+          logBrowserEvent("SUCCESS", `Deposited '${file.name}' (${hash.slice(0, 10)}…) on [${onlinePorts.join(", ")}].`);
+          showToast(`Deposited '${file.name}' (${onlinePorts.length}/3 replicas verified)`);
           uploadForm.reset();
           await fetchStatus();
           return;
@@ -864,14 +898,14 @@
         const res = await fetch("/upload", { method: "POST", body: formData });
         const payload = await res.json();
         if (!res.ok) throw new Error(payload.detail?.message || payload.detail || "Upload failed");
-        showToast(`Uploaded '${payload.filename}' (${payload.active_replica_count}/${payload.total_nodes} replicas)`);
+        showToast(`Deposited '${payload.filename}' (${payload.active_replica_count}/${payload.total_nodes} replicas)`);
         uploadForm.reset();
         await fetchStatus();
       } catch (err) {
         showToast(`Error: ${err.message}`, true);
       } finally {
         uploadBtn.disabled = false;
-        uploadBtn.textContent = "Upload";
+        uploadBtn.textContent = "Deposit to Vault";
       }
     }
 
@@ -882,9 +916,9 @@
 
     demoBtn.addEventListener("click", async () => {
       const id = Math.floor(1000 + Math.random() * 9000);
-      const fname = `blob-${id}.bin`;
-      const file = new File([`SHIT IS HARD // VAULT BLOCK #${id} // ${new Date().toISOString()}\n`], fname, {
-        type: "application/octet-stream",
+      const fname = `ledger-entry-${id}.txt`;
+      const file = new File([`SHIT IS HARD // VAULT LEDGER ENTRY #${id} // ${new Date().toISOString()}\n`], fname, {
+        type: "text/plain",
       });
       await uploadFileObj(file);
     });
